@@ -1,4 +1,6 @@
-FROM us.gcr.io/broad-dsp-gcr-public/terra-jupyter-python:0.0.23 AS python
+FROM gcr.io/ukb-itt-demo-data/terra_python:unpinned_versions AS python
+# TODO point this back to the authoritative copy of the base image.
+# FROM us.gcr.io/broad-dsp-gcr-public/terra-jupyter-python:0.0.?? AS python
 
 FROM us.gcr.io/broad-dsp-gcr-public/terra-jupyter-r:1.0.12
 
@@ -102,14 +104,4 @@ ENV USER jupyter-user
 USER $USER
 
 RUN pip3 install --upgrade \
-  # Fix plotnine and its dependency mizani to a version that's compatible with 0.25.* of pandas.
-  # The next versions require pandas 1.0 which we're not ready to upgrade to just yet.
-  plotnine==0.6.0 \
-  mizani==0.6.0 \
-  # Parent image pins tensorflow to an old alpha version. Override here for now.
-  tensorflow==2.3.0 \
-  numpy==1.18.5 \
-  statsmodels==0.10.0rc2 \
   "git+git://github.com/all-of-us/workbench-snippets.git#egg=terra_widgets&subdirectory=py"
-
-RUN R -e 'devtools::install_github("all-of-us/bigrquery")'
