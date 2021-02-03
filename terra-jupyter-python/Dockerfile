@@ -73,7 +73,7 @@ RUN pip3 -V \
    tqdm \
    werkzeug \
    wheel \
- && pip3 uninstall -y 
+ && pip3 uninstall -y \
    # As of release [google-cloud-bigquery 1.26.0 (2020-07-20)](https://github.com/googleapis/python-bigquery/blob/master/CHANGELOG.md#1260-2020-07-20)
    # the BigQuery Python client uses the BigQuery Storage client by default.
    # This currently causes an error on Terra Cloud Runtimes `the user does not have 'bigquery.readsessions.create' permission for '<Terra billing project id>'`.
