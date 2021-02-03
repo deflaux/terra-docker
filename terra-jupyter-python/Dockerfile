@@ -1,6 +1,6 @@
 FROM us.gcr.io/broad-dsp-gcr-public/terra-jupyter-base:0.0.19
 USER root
-#this makes it so pip runs as root, not the user
+# This makes it so pip runs as root, not the user.
 ENV PIP_USER=false
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
@@ -22,64 +22,67 @@ ENV HTSLIB_CONFIGURE_OPTIONS="--enable-gcs"
 
 RUN pip3 -V \
  && pip3 install --upgrade pip \
- && pip3 install numpy \
- && pip3 install py4j \
- && python3 -mpip install matplotlib \
- && pip3 install pandas \
- && pip3 install pandas-gbq \
- && pip3 install pandas-profiling \
- && pip3 install seaborn \
- && pip3 install python-lzo \
- && pip3 install google-cloud-bigquery \
- && pip3 install google-api-core \
- && pip3 install google-cloud-bigquery-datatransfer \
- && pip3 install google-cloud-datastore \
- && pip3 install google-cloud-resource-manager \
- && pip3 install google-cloud-storage \
- && pip3 install scikit-learn \
- && pip3 install statsmodels \
- && pip3 install ggplot \
- && pip3 install plotnine \
- && pip3 install bokeh \
- && pip3 install pyfasta \
- && pip3 install markdown \
- && pip3 install pdoc3 \
- && pip3 install biopython \
- && pip3 install bx-python \
- && pip3 install fastinterval \
- && pip3 install matplotlib-venn \
- && pip3 install bleach \
- && pip3 install cycler \
- && pip3 install h5py \
- && pip3 install html5lib \
- && pip3 install joblib \
- && pip3 install keras \
- && pip3 install patsy \
- && pip3 install protobuf \
- && pip3 install pymc3 \
- && pip3 install pyparsing \
- && pip3 install Cython \
- && pip3 install pysam --no-binary pysam \
- && pip3 install python-dateutil \
- && pip3 install pytz \
- && pip3 install pyvcf \
- && pip3 install pyyaml \
- && pip3 install scipy \
- # Use the cpu version of Tensorflow to eliminate the warnings about absent gpus on the Cloud Runtime.
- && pip3 install tensorflow_cpu \
- && pip3 install theano \
- && pip3 install tqdm \
- && pip3 install werkzeug \
- && pip3 install certifi \
- && pip3 install intel-openmp \
- && pip3 install mkl \
- && pip3 install readline \
- && pip3 install setuptools \
- && pip3 install wheel
+ && pip3 install --upgrade \
+   biopython \
+   bleach \
+   bokeh \
+   bx-python \
+   certifi \
+   cycler \
+   Cython \
+   fastinterval \
+   ggplot \
+   google-cloud-bigquery \
+   google-cloud-bigquery-datatransfer \
+   google-cloud-datastore \
+   google-cloud-resource-manager \
+   google-cloud-storage \
+   h5py \
+   html5lib \
+   intel-openmp \
+   joblib \
+   keras \
+   markdown \
+   matplotlib-venn \
+   mkl \
+   pandas-gbq \
+   pandas-profiling \
+   patsy \
+   pdoc3 \
+   # TODO(deflaux) make sure the plotnine package addition is reflected in the changelog.
+   plotnine \
+   py4j \
+   pyfasta \
+   pymc3 \
+   pyparsing \
+   pysam --no-binary pysam \
+   python-dateutil \
+   python-lzo \
+   pytz \
+   pyvcf \
+   pyyaml \
+   readline \
+   scikit-learn \
+   scipy \
+   seaborn \
+   setuptools \
+   statsmodels \
+   # Use the cpu version of Tensorflow to eliminate the warnings about absent gpus on the Cloud Runtime.
+   tensorflow_cpu \
+   theano \
+   tqdm \
+   werkzeug \
+   wheel \
+ && pip3 uninstall -y 
+   # As of release [google-cloud-bigquery 1.26.0 (2020-07-20)](https://github.com/googleapis/python-bigquery/blob/master/CHANGELOG.md#1260-2020-07-20)
+   # the BigQuery Python client uses the BigQuery Storage client by default.
+   # This currently causes an error on Terra Cloud Runtimes `the user does not have 'bigquery.readsessions.create' permission for '<Terra billing project id>'`.
+   # To work-around this uninstall the dependency so that flag `--use_rest_api` can be used with `%%bigquery` to use the older, slower mechanism for data transfer.
+  google-cloud-bigquery-storage  
 
 ENV USER jupyter-user
 USER $USER
-#we want pip to install into the user's dir when the notebook is running
+# We want pip to install into the user's dir when the notebook is running
 ENV PIP_USER=true
 
 # Note: this entrypoint is provided for running Jupyter independently of Leonardo.
