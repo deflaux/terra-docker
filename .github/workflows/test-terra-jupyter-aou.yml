@@ -80,7 +80,7 @@ jobs:
           --workdir=/tests \
           --entrypoint="" \
           gcr.io/ukb-itt-demo-data/terra_aou:unpinned_versions \
-          /bin/sh -c 'for nb in {terra-jupyter-python/*ipynb,terra-jupyter-aou/*ipynb} ; do jupyter nbconvert --to html --ExecutePreprocessor.allow_errors=True --execute "${nb}" ; done'
+          /bin/bash -c 'for nb in {terra-jupyter-python,terra-jupyter-aou}/*ipynb ; do jupyter nbconvert --to html --ExecutePreprocessor.allow_errors=True --execute "${nb}" ; done'
             
           # TODO(deflaux) restore to local image          terra-jupyter-aou:smoke-test
 
@@ -103,7 +103,7 @@ jobs:
           --workdir=/tests \
           --entrypoint="" \
           gcr.io/ukb-itt-demo-data/terra_aou:unpinned_versions \
-          /bin/sh -c "pip3 install pytest; pytest terra-jupyter-python/ terra-jupyter-aou/"
+          /bin/bash -c "pip3 install pytest; pytest terra-jupyter-python/ terra-jupyter-aou/"
           
           # TODO(deflaux) restore to local image          terra-jupyter-aou:smoke-test
 
@@ -121,6 +121,6 @@ jobs:
           --workdir=/tests \
           --entrypoint="" \
           gcr.io/ukb-itt-demo-data/terra_aou:unpinned_versions \
-          /bin/sh -c 'for nb in {terra-jupyter-python/*ipynb,terra-jupyter-aou/*ipynb} ; do jupyter nbconvert --to html --execute "${nb}" ; done'
+          /bin/bash -c 'for nb in {terra-jupyter-python,terra-jupyter-aou}/*ipynb ; do jupyter nbconvert --to html --execute "${nb}" ; done'
             
           # TODO(deflaux) restore to local image          terra-jupyter-aou:smoke-test
