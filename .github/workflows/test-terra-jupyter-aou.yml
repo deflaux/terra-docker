@@ -26,6 +26,7 @@ on:
     branches: [ add-smoke-tests, bump-aou-versions ]
     paths:
     - 'terra-jupyter-aou/**'
+    - '.github/workflows/test-terra-jupyter-aou.yml'
 
 env:
   GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
