@@ -112,7 +112,6 @@ jobs:
       # If the tests throw any exceptions, execution of the notebooks will halt at that point. Look at the workflow
       # artifacts to understand if there are more failures than just the one that caused this task to halt.
       run: |
-        chmod a+w -R $GITHUB_WORKSPACE
         docker run \
           --env GOOGLE_PROJECT \
           --volume "${{ env.GOOGLE_APPLICATION_CREDENTIALS }}:/tmp/credentials.json:ro" \
