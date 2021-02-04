@@ -42,10 +42,11 @@ jobs:
       with:
         python-version: 3.7
 
-    - name: Build Docker image
-      run: |
-        cd terra-jupyter-aou
-        docker build . --file Dockerfile --tag terra-jupyter-aou:smoke-test
+# TODO(deflaux) restore this job step after testing is complete.
+#    - name: Build Docker image
+#      run: |
+#        cd terra-jupyter-aou
+#        docker build . --file Dockerfile --tag terra-jupyter-aou:smoke-test
 
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@master
@@ -53,6 +54,13 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         export_default_credentials: true
+
+    # TODO(deflaux) remove this job step after testing is complete.
+    - name: Build Docker image from private base image
+      run: |
+        cd terra-jupyter-aou
+        gcloud auth configure-docker
+        docker build . --file Dockerfile --tag terra-jupyter-aou:smoke-test
 
     - name: Run Python code specific to notebooks with nbconvert
       # Run all notebooks from start to finish, regardles of error, so that we can capture the 
