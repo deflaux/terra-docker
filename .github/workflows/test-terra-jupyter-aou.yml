@@ -99,7 +99,7 @@ jobs:
           --env GOOGLE_PROJECT \
           --volume "${{ env.GOOGLE_APPLICATION_CREDENTIALS }}:/tmp/credentials.json:ro" \
           --env GOOGLE_APPLICATION_CREDENTIALS="/tmp/credentials.json" \
-          --volume $GITHUB_WORKSPACE/terra-jupyter-aou:/tests \
+          --volume $GITHUB_WORKSPACE:/tests \
           --workdir=/tests \
           --entrypoint="" \
           gcr.io/ukb-itt-demo-data/terra_aou:unpinned_versions \
