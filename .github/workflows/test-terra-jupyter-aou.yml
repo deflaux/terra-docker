@@ -24,6 +24,8 @@ on:
   push:
     # TODO(deflaux) remove these 'push' triggers after testing is complete.
     branches: [ add-smoke-tests, bump-aou-versions ]
+    paths:
+    - 'terra-jupyter-aou/**'
 
 env:
   GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
@@ -78,8 +80,8 @@ jobs:
           --entrypoint="" \
           terra-jupyter-aou:smoke-test \
           /bin/sh -c '
-            notebooks[0]='terra-jupyter-python/*.ipynb'
-            notebooks[1]='terra-jupyter-aou/*.ipynb'
+            notebooks[0]='/tests/terra-jupyter-python/*.ipynb'
+            notebooks[1]='/tests/terra-jupyter-aou/*.ipynb'
 
             for nb in "${notebooks[@]}" ; do jupyter nbconvert --to html --ExecutePreprocessor.allow_errors=True --execute "${nb}" ; done'
 
@@ -119,7 +121,7 @@ jobs:
           --entrypoint="" \
           terra-jupyter-aou:smoke-test \
           /bin/sh -c '
-            notebooks[0]='terra-jupyter-python/*.ipynb'
-            notebooks[1]='terra-jupyter-aou/*.ipynb'
+            notebooks[0]='/tests/terra-jupyter-python/*.ipynb'
+            notebooks[1]='/tests/terra-jupyter-aou/*.ipynb'
 
             for nb in "${notebooks[@]}" ; do jupyter nbconvert --to html --execute "${nb}" ; done'
