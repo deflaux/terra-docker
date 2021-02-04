@@ -58,11 +58,11 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         export_default_credentials: true
 
-#    # TODO(deflaux) remove this job step after testing is complete.
-#    - name: Build Docker image from private base image
-#      run: |
-#        cd terra-jupyter-aou
-#        gcloud auth configure-docker
+    # TODO(deflaux) remove this job step after testing is complete.
+    - name: Build Docker image from private base image
+      run: |
+        cd terra-jupyter-aou
+        gcloud auth configure-docker
 #        docker build . --file Dockerfile --tag terra-jupyter-aou:smoke-test
 
     - name: Run Python code specific to notebooks with nbconvert
