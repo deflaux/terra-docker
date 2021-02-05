@@ -36,6 +36,7 @@ RUN pip3 -V \
    google-cloud-bigquery-datatransfer \
    google-cloud-datastore \
    google-cloud-resource-manager \
+   google-resumable-media \
    google-cloud-storage \
    h5py \
    html5lib \
