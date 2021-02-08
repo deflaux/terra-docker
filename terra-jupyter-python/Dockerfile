@@ -20,6 +20,14 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 
 ENV HTSLIB_CONFIGURE_OPTIONS="--enable-gcs"
 
+# Dev note: in general, do not pin Python packages to any particular version. Depend on the smoke tests
+# to help us identify any package incompatibilties.
+# 
+# If we find that we do need to pin a package version, be sure to:
+# 1) Add a comment saying what needs to be true for us to remove the pin.
+#    (e.g. link to an issue and put the details there)
+# 2) If the smoke tests did not show the problem, add a new test case to improve
+#    test coverage for the identified problem.
 RUN pip3 -V \
  && pip3 install --upgrade pip \
  && pip3 install --upgrade \
@@ -50,7 +58,6 @@ RUN pip3 -V \
    pandas-profiling \
    patsy \
    pdoc3 \
-   # TODO(deflaux) make sure the plotnine package addition is reflected in the changelog.
    plotnine \
    py4j \
    pyfasta \
@@ -75,6 +82,7 @@ RUN pip3 -V \
    werkzeug \
    wheel \
  && pip3 uninstall -y \
+   # Remove this after https://broadworkbench.atlassian.net/browse/CA-1179
    # As of release [google-cloud-bigquery 1.26.0 (2020-07-20)](https://github.com/googleapis/python-bigquery/blob/master/CHANGELOG.md#1260-2020-07-20)
    # the BigQuery Python client uses the BigQuery Storage client by default.
    # This currently causes an error on Terra Cloud Runtimes `the user does not have 'bigquery.readsessions.create' permission for '<Terra billing project id>'`.

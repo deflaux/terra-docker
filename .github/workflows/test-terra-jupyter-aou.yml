@@ -103,7 +103,11 @@ jobs:
           --workdir=/tests \
           --entrypoint="" \
           gcr.io/ukb-itt-demo-data/terra_aou:unpinned_versions \
-          /bin/bash -c "pip3 install pytest; pytest terra-jupyter-python/ terra-jupyter-aou/"
+          /bin/bash -c "
+            pip3 install pytest
+            git clone https://github.com/all-of-us/workbench-snippets.git
+            pytest terra-jupyter-python/ terra-jupyter-aou/ workbench-snippets/*/snippets_setup.py
+          "
           
           # TODO(deflaux) restore to local image          terra-jupyter-aou:smoke-test
 

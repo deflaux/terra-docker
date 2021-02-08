@@ -1,15 +1,15 @@
 FROM gcr.io/ukb-itt-demo-data/terra_python:unpinned_versions AS python
-# TODO point this back to the authoritative copy of the base image.
+# TODO(deflaux) point this back to the authoritative copy of the base image.
 # FROM us.gcr.io/broad-dsp-gcr-public/terra-jupyter-python:0.0.?? AS python
 
 FROM us.gcr.io/broad-dsp-gcr-public/terra-jupyter-r:1.0.12
 
-# copy everything pip installed from the python image
+# Copy everything pip installed from the python image.
 COPY --from=python /usr/local/lib/python3.7/dist-packages /usr/local/lib/python3.7/dist-packages
 
 USER root
 
-# need to apt-get everything for python since we can only copy pip installed packages
+# Need to apt-get everything for python since we can only copy pip installed packages.
 RUN apt-get update && apt-get install -yq --no-install-recommends \
   jq \
   python3.7-dev \
@@ -44,7 +44,7 @@ RUN mkdir -p /etc/spark/conf.dist && mkdir -p /etc/hadoop/conf.empty && mkdir -p
     && update-alternatives --install /etc/hadoop/conf hadoop-conf /etc/hadoop/conf.empty 100 \
     && update-alternatives --install /etc/hive/conf hive-conf /etc/hive/conf.dist 100
 
-ENV HAIL_VERSION=0.2.61
+ENV HAIL_VERSION=0.2.62
 ENV PIP_USER=false
 
 # For dataproc clusters, this path with will be automatically mounted. Else,
