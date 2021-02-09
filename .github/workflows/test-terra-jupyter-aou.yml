@@ -63,7 +63,7 @@ jobs:
       run: |
         cd terra-jupyter-aou
         gcloud auth configure-docker
-#        docker build . --file Dockerfile --tag terra-jupyter-aou:smoke-test
+        docker build . --file Dockerfile --tag terra-jupyter-aou:smoke-test
 
     - name: Run Python code specific to notebooks with nbconvert
       # Run all notebooks from start to finish, regardles of error, so that we can capture the 
@@ -79,10 +79,8 @@ jobs:
           --volume $GITHUB_WORKSPACE:/tests \
           --workdir=/tests \
           --entrypoint="" \
-          gcr.io/ukb-itt-demo-data/terra_aou:unpinned_versions \
+          terra-jupyter-aou:smoke-test \
           /bin/bash -c 'for nb in {terra-jupyter-python,terra-jupyter-aou}/*ipynb ; do jupyter nbconvert --to html --ExecutePreprocessor.allow_errors=True --execute "${nb}" ; done'
-            
-          # TODO(deflaux) restore to local image          terra-jupyter-aou:smoke-test
 
     - name: Upload workflow artifacts
       uses: actions/upload-artifact@v2
@@ -102,14 +100,18 @@ jobs:
           --volume $GITHUB_WORKSPACE:/tests \
           --workdir=/tests \
           --entrypoint="" \
-          gcr.io/ukb-itt-demo-data/terra_aou:unpinned_versions \
-          /bin/bash -c "
+          terra-jupyter-aou:smoke-test \
+          /bin/bash -c '
             pip3 install pytest
             git clone https://github.com/all-of-us/workbench-snippets.git
-            pytest terra-jupyter-python/ terra-jupyter-aou/ workbench-snippets/*/snippets_setup.py
-          "
-          
-          # TODO(deflaux) restore to local image          terra-jupyter-aou:smoke-test
+            export WORKSPACE_CDR=placeholder_string
+            pytest \
+              terra-jupyter-python/ \
+              terra-jupyter-aou/ \
+              workbench-snippets/dataset-snippets/snippets_setup.py \
+              workbench-snippets/sql-snippets/snippets_setup.py \
+              workbench-snippets/storage-snippets/snippets_setup.py
+          '
 
     - name: Test Python code specific to notebooks with nbconvert
       # Simply 'Cell -> Run All` these notebooks and expect no errors in the case of a successful run of the test suite.
@@ -123,7 +125,5 @@ jobs:
           --volume $GITHUB_WORKSPACE:/tests \
           --workdir=/tests \
           --entrypoint="" \
-          gcr.io/ukb-itt-demo-data/terra_aou:unpinned_versions \
+          terra-jupyter-aou:smoke-test \
           /bin/bash -c 'for nb in {terra-jupyter-python,terra-jupyter-aou}/*ipynb ; do jupyter nbconvert --to html --execute "${nb}" ; done'
-            
-          # TODO(deflaux) restore to local image          terra-jupyter-aou:smoke-test
