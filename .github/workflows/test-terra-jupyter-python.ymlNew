@@ -24,9 +24,6 @@ on:
   push:
     # TODO(deflaux) remove these 'push' triggers after testing is complete.
     branches: [ add-smoke-tests, bump-aou-versions ]
-    paths:
-    - 'terra-jupyter-python/**'
-    - '.github/workflows/test-terra-jupyter-python.yml'
 
 env:
   GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}

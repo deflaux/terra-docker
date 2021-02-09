@@ -23,7 +23,7 @@ on:
     
   push:
     # TODO(deflaux) remove these 'push' triggers after testing is complete.
-    branches: [ add-smoke-tests, bump-aou-versions ]
+    branches: [ add-smoke-tests, add-aou-smoke-tests, bump-aou-versions ]
     paths:
     - 'terra-jupyter-aou/**'
     - '.github/workflows/test-terra-jupyter-aou.yml'
