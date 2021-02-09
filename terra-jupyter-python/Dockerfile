@@ -29,6 +29,10 @@ ENV HTSLIB_CONFIGURE_OPTIONS="--enable-gcs"
 # 2) If the smoke tests did not show the problem, add a new test case to improve
 #    test coverage for the identified problem.
 RUN pip3 -V \
+ # Get rid of "WARNING: The directory '/home/jupyter-user/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled."
+ && mkdir -p /home/jupyter-user/.cache/pip \
+ && chmod a+w /home/jupyter-user/.cache/pip \
+ && chown --recursive jupyter-user /home/jupyter-user/.cache \
  && pip3 install --upgrade pip \
  && pip3 install --upgrade \
    biopython \
@@ -86,9 +90,7 @@ RUN pip3 -V \
  # the BigQuery Python client uses the BigQuery Storage client by default.
  # This currently causes an error on Terra Cloud Runtimes `the user does not have 'bigquery.readsessions.create' permission for '<Terra billing project id>'`.
  # To work-around this uninstall the dependency so that flag `--use_rest_api` can be used with `%%bigquery` to use the older, slower mechanism for data transfer.
- && pip3 uninstall -y google-cloud-bigquery-storage \
- # Get rid of "WARNING: The directory '/home/jupyter-user/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled."
- && chmod a+w /home/jupyter-user/.cache/pip
+ && pip3 uninstall -y google-cloud-bigquery-storage
 
 ENV USER jupyter-user
 USER $USER
