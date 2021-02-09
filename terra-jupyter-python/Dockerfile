@@ -30,8 +30,6 @@ ENV HTSLIB_CONFIGURE_OPTIONS="--enable-gcs"
 #    test coverage for the identified problem.
 RUN pip3 -V \
  && pip3 install --upgrade pip \
- # Get rid of "WARNING: The directory '/home/jupyter-user/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled."
- && chmod a+w /home/jupyter-user/.cache/pip \
  && pip3 install --upgrade \
    biopython \
    bleach \
@@ -83,13 +81,14 @@ RUN pip3 -V \
    tqdm \
    werkzeug \
    wheel \
- && pip3 uninstall -y \
-   # Remove this after https://broadworkbench.atlassian.net/browse/CA-1179
-   # As of release [google-cloud-bigquery 1.26.0 (2020-07-20)](https://github.com/googleapis/python-bigquery/blob/master/CHANGELOG.md#1260-2020-07-20)
-   # the BigQuery Python client uses the BigQuery Storage client by default.
-   # This currently causes an error on Terra Cloud Runtimes `the user does not have 'bigquery.readsessions.create' permission for '<Terra billing project id>'`.
-   # To work-around this uninstall the dependency so that flag `--use_rest_api` can be used with `%%bigquery` to use the older, slower mechanism for data transfer.
-  google-cloud-bigquery-storage  
+ # Remove this after https://broadworkbench.atlassian.net/browse/CA-1179
+ # As of release [google-cloud-bigquery 1.26.0 (2020-07-20)](https://github.com/googleapis/python-bigquery/blob/master/CHANGELOG.md#1260-2020-07-20)
+ # the BigQuery Python client uses the BigQuery Storage client by default.
+ # This currently causes an error on Terra Cloud Runtimes `the user does not have 'bigquery.readsessions.create' permission for '<Terra billing project id>'`.
+ # To work-around this uninstall the dependency so that flag `--use_rest_api` can be used with `%%bigquery` to use the older, slower mechanism for data transfer.
+ && pip3 uninstall -y google-cloud-bigquery-storage \
+ # Get rid of "WARNING: The directory '/home/jupyter-user/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled."
+ && chmod a+w /home/jupyter-user/.cache/pip
 
 ENV USER jupyter-user
 USER $USER
