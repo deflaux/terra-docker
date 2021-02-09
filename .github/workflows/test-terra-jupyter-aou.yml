@@ -101,17 +101,7 @@ jobs:
           --workdir=/tests \
           --entrypoint="" \
           terra-jupyter-aou:smoke-test \
-          /bin/bash -c '
-            pip3 install pytest
-            git clone https://github.com/all-of-us/workbench-snippets.git
-            export WORKSPACE_CDR=placeholder_string
-            pytest \
-              terra-jupyter-python/ \
-              terra-jupyter-aou/ \
-              workbench-snippets/dataset-snippets/snippets_setup.py \
-              workbench-snippets/sql-snippets/snippets_setup.py \
-              workbench-snippets/storage-snippets/snippets_setup.py
-          '
+          /bin/bash -c 'pip3 install pytest ; pytest terra-jupyter-python/ terra-jupyter-aou/'
 
     - name: Test Python code specific to notebooks with nbconvert
       # Simply 'Cell -> Run All` these notebooks and expect no errors in the case of a successful run of the test suite.

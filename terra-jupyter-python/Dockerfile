@@ -29,6 +29,8 @@ ENV HTSLIB_CONFIGURE_OPTIONS="--enable-gcs"
 # 2) If the smoke tests did not show the problem, add a new test case to improve
 #    test coverage for the identified problem.
 RUN pip3 -V \
+ # Get rid of "WARNING: The directory '/home/jupyter-user/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled."
+ && chmod a+w /home/jupyter-user/.cache/pip \
  && pip3 install --upgrade pip \
  && pip3 install --upgrade \
    biopython \
