@@ -86,6 +86,6 @@ USER $USER
 
 RUN pip3 install --upgrade \
   nbstripout \
-  "git+git://github.com/all-of-us/workbench-snippets.git#egg=terra_widgets&subdirectory=py" \
+  "git+git://github.com/deflaux/workbench-snippets.git@deflaux-patch-1#egg=terra_widgets&subdirectory=py" \
   && mkdir -p /home/$USER/.config/git \
   && nbstripout --install --global
