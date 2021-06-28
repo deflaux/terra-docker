@@ -135,7 +135,7 @@ RUN R -e 'BiocManager::install(c( \
 
 RUN pip3 install \
   nbstripout \
-  "git+git://github.com/deflaux/workbench-snippets.git@remove-tensorflow#egg=terra_widgets&subdirectory=py" \
+  "git+git://github.com/deflaux/workbench-snippets.git@restore-tensorflow#egg=terra_widgets&subdirectory=py" \
   && mkdir -p /home/$USER/.config/git \
   && nbstripout --install --global
   
