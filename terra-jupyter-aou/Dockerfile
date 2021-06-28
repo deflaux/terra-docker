@@ -135,6 +135,10 @@ RUN R -e 'BiocManager::install(c( \
 
 RUN pip3 install \
   nbstripout \
-  "git+git://github.com/all-of-us/workbench-snippets.git#egg=terra_widgets&subdirectory=py" \
   && mkdir -p /home/$USER/.config/git \
   && nbstripout --install --global
+
+RUN pip3 install \
+  "git+git://github.com/all-of-us/workbench-snippets.git#egg=terra_widgets&subdirectory=py" \
+  && find /home/jupyter/.local/lib/python3.7/site-packages/terra_widgets
+  
