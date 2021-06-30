@@ -1,4 +1,4 @@
-FROM us.gcr.io/broad-dsp-gcr-public/terra-jupyter-gatk:1.1.3
+FROM us.gcr.io/broad-dsp-gcr-public/terra-jupyter-gatk:2.0.0
 
 USER root
 
@@ -127,7 +127,7 @@ RUN echo "Sys.setenv(RETICULATE_PYTHON = '$(which python3)')" >> ~/.Rprofile
 
 # Install Notebook libraries as the user.
 
-ENV USER jupyter-user
+ENV USER jupyter
 USER $USER
 
 RUN R -e 'BiocManager::install(c( \
