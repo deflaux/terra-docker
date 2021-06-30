@@ -142,7 +142,7 @@ COPY --chown=$USER:users gitignore_global /home/$USER/gitignore_global
 RUN pip3 install \
   nbstripout \
   papermill \
-  "git+git://github.com/all-of-us/workbench-snippets.git#egg=terra_widgets&subdirectory=py" \
+#  "git+git://github.com/all-of-us/workbench-snippets.git#egg=terra_widgets&subdirectory=py" \
   && mkdir -p /home/$USER/.config/git \
   && nbstripout --install --global \
   && git config --global core.excludesfile /home/$USER/gitignore_global
