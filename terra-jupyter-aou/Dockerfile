@@ -43,6 +43,9 @@ ENV PIP_USER=false
 ENV PYTHONPATH $PYTHONPATH:/usr/lib/spark/python
 
 RUN pip3 install pypandoc \
+    nbstripout \
+    papermill \
+    "git+git://github.com/all-of-us/workbench-snippets.git#egg=terra_widgets&subdirectory=py" \
     && pip3 install --no-dependencies hail==$HAIL_VERSION \
     && X=$(mktemp -d) \
     && mkdir -p $X \
@@ -139,10 +142,6 @@ RUN R -e 'BiocManager::install(c( \
 # https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files#configuring-ignored-files-for-all-repositories-on-your-computer
 COPY --chown=$USER:users gitignore_global /home/$USER/gitignore_global
 
-RUN pip3 install \
-  nbstripout \
-  papermill \
-#  "git+git://github.com/all-of-us/workbench-snippets.git#egg=terra_widgets&subdirectory=py" \
-  && mkdir -p /home/$USER/.config/git \
+RUN mkdir -p /home/$USER/.config/git \
   && nbstripout --install --global \
   && git config --global core.excludesfile /home/$USER/gitignore_global
